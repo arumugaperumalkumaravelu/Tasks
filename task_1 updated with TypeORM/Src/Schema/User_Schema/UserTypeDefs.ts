@@ -1,36 +1,39 @@
 import { gql } from "apollo-server";
-import TodoTypeDefs from "../Todo_Schema/TodoTypeDefs";
 const UserTypeDefs = gql`
+  type Query {
+    getUsers(first: Int, offset: Int): UserResponse!
+    getUser(user_id: Int!): User!
+  }
 
-    type Query {
-        getUsers: [User!]!
-        getUser(user_id: Int!): User!
-    }
+  type UserResponse {
+    total: Int
+    data: [User!]!
+  }
 
-    type User {
-        user_id: Int!
-        username: String!
-        age: Int!
-        gender: String!
-        place: String!
-        todos: [Todo]   
-    }
+  type User {
+    user_id: Int!
+    username: String!
+    age: Int!
+    gender: String!
+    place: String!
+    todos: [Todo]!
+  }
 
-    input CreateUser {
-        username: String!
-        age: Int!
-        gender: String!
-        place: String!
-    }
+  input CreateUser {
+    username: String!
+    age: Int!
+    gender: String!
+    place: String!
+  }
 
-    type Mutation {
-        createUser(input:CreateUser): User!
-    }
+  type Mutation {
+    createUser(input: CreateUser): User!
+  }
 
-    schema {
-        query: Query
-        mutation: Mutation
-    }
+  schema {
+    query: Query
+    mutation: Mutation
+  }
 `;
 
 export default UserTypeDefs;

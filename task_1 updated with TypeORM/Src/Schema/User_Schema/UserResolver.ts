@@ -1,34 +1,28 @@
-import UserService from '../../Service/UserService';
-import { UserEntity } from '../../Entity/UserEntity';
-import { TodoEntity } from '../../Entity/TodoEntity';
+import UserService from "../../Service/UserService";
+import { UserEntity } from "../../Entity/UserEntity";
+import { TodoEntity } from "../../Entity/TodoEntity";
 import { AppDataSource } from "../../data-source";
 const UserResolver = {
-    Query: {
-        getUsers(){
-            return UserService.getUsers()
-        },
-        getUser(parent: any, args: any, context: any){
-            return UserService.getUser(args.user_id);
-        },
+  Query: {
+    getUsers: async (
+      parent: any,
+      args: { first?: number; offset?: number },
+      context: any
+    ) => {
+      const { first, offset } = args;
+      const userService = new UserService();
+      const { total, data } = await userService.getUsers(first, offset);
+      return { total, data };
     },
-    User: {
-        todos: async (user: UserEntity) => {
-            const todoRepository = AppDataSource.getRepository(TodoEntity);
-      
-            const todos = await todoRepository
-              .createQueryBuilder('todo')
-              .where('todo.user_id = :user_id', { user_id: user.user_id })
-              .getMany();
-      
-            return todos;
-          },
-      },
-      Mutation: {
-        createUser(parent: any, args:any, context:any ){
-            return UserService.createUser(args.input);
-        },
-      }
-}
+    getUser(parent: any, args: { user_id: number }, context: any) {
+      return UserService.getUser(args.user_id);
+    },
+  },
+  Mutation: {
+    createUser(parent: any, args: any, context: any) {
+      return UserService.createUser(args.input);
+    },
+  },
+};
 
 export default UserResolver;
-

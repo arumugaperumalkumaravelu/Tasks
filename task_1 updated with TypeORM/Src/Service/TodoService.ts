@@ -3,9 +3,12 @@ import { TodoEntity } from "../Entity/TodoEntity";
 
 class TodoService {    
 
-    public static async getTodos(): Promise<TodoEntity[]>{
+    public static async getTodos( first?: number, offset?: number ): Promise<TodoEntity[]>{
         const todoRepository = AppDataSource.getRepository(TodoEntity);
-        const data = await todoRepository.find()
+        let data = await todoRepository.find()
+          if (first !== undefined && offset !== undefined) {
+            data = data.slice(offset, offset + first);
+        }
         return data;
     }
 
