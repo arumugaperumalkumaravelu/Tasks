@@ -1,8 +1,7 @@
 import UserService from "../../Service/UserService";
-import { UserEntity } from "../../Entity/UserEntity";
-import { TodoEntity } from "../../Entity/TodoEntity";
-import { AppDataSource } from "../../data-source";
+
 const UserResolver = {
+
   Query: {
     getUsers: async (
       parent: any,
@@ -15,7 +14,8 @@ const UserResolver = {
       return { total, data };
     },
     getUser(parent: any, args: { user_id: number }, context: any) {
-      return UserService.getUser(args.user_id);
+      const { user_id } = args;
+      return UserService.getUser(user_id);
     },
   },
   Mutation: {

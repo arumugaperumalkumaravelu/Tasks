@@ -6,12 +6,12 @@ const UserTypeDefs = gql`
   }
 
   type UserResponse {
-    total: Int
+    total: Int!
     data: [User!]!
   }
 
   type User {
-    user_id: Int!
+    userId: Int!
     username: String!
     age: Int!
     gender: String!

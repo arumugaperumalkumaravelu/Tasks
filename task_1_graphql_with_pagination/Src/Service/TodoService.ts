@@ -3,14 +3,24 @@ import { TodoEntity } from "../Entity/TodoEntity";
 
 class TodoService {    
 
-    public static async getTodos( first?: number, offset?: number ): Promise<TodoEntity[]>{
+    getTodos = async (
+        first?: number,
+        offset?: number
+    ): Promise<TodoEntity[]> => {
         const todoRepository = AppDataSource.getRepository(TodoEntity);
-        let data = await todoRepository.find()
-          if (first !== undefined && offset !== undefined) {
-            data = data.slice(offset, offset + first);
-        }
+        let data = await todoRepository.find({
+            skip: offset,
+            take: first,
+            cache: true,
+        })
         return data;
-    }
+
+        // let data = await todoRepository.find()
+        //   if (first !== undefined && offset !== undefined) {
+        //     data = data.slice(offset, offset + first);
+        // }
+        // return data;
+    }      
 
     public static async getTodo(args: any){
         const todoRepository = AppDataSource.getRepository(TodoEntity);

@@ -3,16 +3,15 @@ import { gql } from "apollo-server";
 const TodoTypeDefs = gql`
   type Query {
     getTodos(first: Int, offset: Int): [Todo!]!
-    getTodo(todo_id: Int!): Todo!
+    getTodo(todoId: Int!): Todo!
   }
 
   type Todo {
-    todo_id: Int!
-    todo_msg: String!
+    todoId: Int!
+    todoMsg: String!
     status: String!
     description: String!
-    alert_time: String!
-    user_id: Int!
+    alertTime: String!
   }
 
   input CreateTodo {

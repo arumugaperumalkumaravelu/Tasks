@@ -18,7 +18,8 @@ export class TodoEntity {
   @Column()
   alert_time!: string;
 
-  @Column()
-  user_id!: number;
+  @ManyToOne(() => UserEntity, (user) => user.user_id)
+  @JoinColumn({ name: "user_id" })
+  user_id!: UserEntity;
 
 }
